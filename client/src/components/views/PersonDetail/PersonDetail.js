@@ -3,19 +3,18 @@ import { API_URL, IMAGE_BASE_URL } from '../../config/Config';
 import { API_KEY } from '../../config/api_key';
 import MainImage from '../commons/MainImage';
 import PersonInfo from './Sections/PersonInfo';
-import { Row } from 'antd';
 
 function PersonDetail(props) {
-    let person_id = props.match.params.personId;
+    let personId = props.match.params.personId;
     const [Person, setPerson] = useState([]);
 
     useEffect(() => {
-        let endpointPersonInfo = `${API_URL}person/${person_id}?api_key=${API_KEY}`
+        let endpointPersonInfo = `${API_URL}person/${personId}?api_key=${API_KEY}`
 
         fetch(endpointPersonInfo)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setPerson(response)
             })
     }, [])

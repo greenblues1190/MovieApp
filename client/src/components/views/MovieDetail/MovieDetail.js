@@ -4,37 +4,38 @@ import { API_KEY } from '../../config/api_key';
 import MainImage from '../commons/MainImage';
 import GridCards from '../commons/GridCards';
 import MovieInfo from './Sections/MovieInfo';
-import { Row } from 'antd';
+import Favorite from './Sections/Favorite';
+import { Switch, Row } from 'antd';
 
 
 function MovieDetail(props) {
-    let movie_id = props.match.params.movieId;
+    let movieId = props.match.params.movieId;
     const [Movie, setMovie] = useState([]);
     const [Casts, setCasts] = useState([]);
     const [CastToggle, setCastToggle] = useState(false);
 
     useEffect(() => {
-        let endpointMovieInfo = `${API_URL}movie/${movie_id}?api_key=${API_KEY}`
-        let endpointCredits = `${API_URL}movie/${movie_id}/credits?api_key=${API_KEY}`
+        let endpointMovieInfo = `${API_URL}movie/${movieId}?api_key=${API_KEY}`
+        let endpointCredits = `${API_URL}movie/${movieId}/credits?api_key=${API_KEY}`
 
         fetch(endpointMovieInfo)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setMovie(response)
             })
 
         fetch(endpointCredits)
             .then(response => response.json())
             .then(response => {
-                console.log('responseCredits', response)
+                // console.log('responseCredits', response)
                 setCasts(response.cast)
             })
 
     }, [])
 
     const toggleCastView = () => {
-        setCastToggle(!CastToggle) 
+        setCastToggle(!CastToggle)
     }
 
     return (
@@ -50,6 +51,14 @@ function MovieDetail(props) {
 
             {/* Body */}
             <div style={{ width: '85%', margin: '1rem auto' }}>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Favorite
+                        userFrom={localStorage.getItem('userId')}
+                        movieId={movieId}
+                    />
+                </div>
+
                 {/* Movie Info */}
                 <MovieInfo
                     movie={Movie}
@@ -58,19 +67,17 @@ function MovieDetail(props) {
                 <br />
                 {/* Casts Grid */}
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem' }}>
-                    <button onClick={toggleCastView}>Toggle Cast View</button>
+                    <Switch checkedChildren="show cast" unCheckedChildren="hide cast" onClick={toggleCastView} />
                 </div>
-                { CastToggle &&
+                {CastToggle &&
                     <Row gutter={[16, 16]}>
                         {Casts && Casts.map((cast, index) => (
                             <React.Fragment key={index}>
                                 <GridCards
                                     image={cast.profile_path ?
-                                        `${IMAGE_BASE_URL}w500${cast.profile_path}` : null
-                                    }
+                                        `${IMAGE_BASE_URL}w500${cast.profile_path}` : null}
                                     personId={cast.id}
-                                    personName={cast.name}
-                                />
+                                    personName={cast.name} />
                             </React.Fragment>
                         ))}
                     </Row>
