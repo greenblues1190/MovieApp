@@ -39,4 +39,13 @@ router.post('/removeFavorite', (req, res) => {
         })
 });
 
+router.post('/getFavoriteList', (req, res) => {
+    // MongoDB에서 Favorite List 가져오기
+    Favorite.find({ userFrom: req.body.userFrom })
+    .exec((err, favoriteList) => {
+        if (err) return res.status(400).json({ err: err, message: 'Failed to load data' })
+        return res.status(200).json({ success: true, favoriteList })
+    })
+})
+
 module.exports = router;

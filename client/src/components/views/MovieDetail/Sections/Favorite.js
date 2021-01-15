@@ -9,18 +9,14 @@ function Favorite(props) {
 
     const userFrom = props.userFrom;
     const movieId = props.movieId;
-
-    let variables = {
-        userFrom,
-        movieId
-    };
+    const movieTitle = props.movieTitle;
 
     const [FavoriteNumber, setFavoriteNumber] = useState(0);
     const [IsFavorited, setIsFavorited] = useState(false);
 
     useEffect(() => {
         // Favorite 수 가져오기
-        Axios.post('/api/favorite/favoriteNumber', {movieId})
+        Axios.post('/api/favorite/favoriteNumber', { movieId })
             .then(response => {
                 if (response.data.success) {
                     setFavoriteNumber(response.data.favoriteNumber)
@@ -30,7 +26,7 @@ function Favorite(props) {
             })
 
         // 사용자가 favorite을 했는지 체크
-        Axios.post('/api/favorite/favorited', variables)
+        Axios.post('/api/favorite/favorited', { userFrom, movieId })
             .then(response => {
                 if (response.data.success) {
                     setIsFavorited(response.data.isFavorited)
@@ -44,7 +40,7 @@ function Favorite(props) {
     const onClickFavorite = () => {
         if (IsFavorited) {
             // 이미 Favorite에 추가되었다면 Favorite에서 삭제한다
-            Axios.post('/api/favorite/removeFavorite', variables)
+            Axios.post('/api/favorite/removeFavorite', { userFrom, movieId })
                 .then(response => {
                     if (response.data.success) {
                         setFavoriteNumber(FavoriteNumber - 1)
@@ -55,7 +51,7 @@ function Favorite(props) {
                 })
         } else {
             // Favorite에 추가되지 않았다면 Favorite에 추가한다
-            Axios.post('/api/favorite/addFavorite', variables)
+            Axios.post('/api/favorite/addFavorite', { userFrom, movieId, movieTitle })
                 .then(response => {
                     if (response.data.success) {
                         setFavoriteNumber(FavoriteNumber + 1)

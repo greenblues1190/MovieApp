@@ -48,8 +48,8 @@ function MovieDetail(props) {
             {!LoadingForMovie ?
                 <MainImage
                     image={`${IMAGE_BASE_URL}w1280${Movie.backdrop_path}`}
-                    title={`${Movie.original_title}`}
-                    overview={`${Movie.overview}`}
+                    title={Movie.original_title}
+                    overview={Movie.overview}
                 />
                 :
                 <div>loading...</div>
@@ -63,6 +63,7 @@ function MovieDetail(props) {
                         <Favorite
                             userFrom={localStorage.getItem('userId')}
                             movieId={movieId}
+                            movieTitle={Movie.original_title}
                         />
                     </Space>
                 </div>

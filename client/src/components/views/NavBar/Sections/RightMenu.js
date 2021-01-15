@@ -10,6 +10,16 @@ import { useSelector } from "react-redux";
 function RightMenu(props) {
   const user = useSelector(state => state.user)
 
+  const logoutHandler = () => {
+    Axios.get(`${USER_SERVER}/logout`).then(response => {
+      if (response.status === 200) {
+        props.history.push("/login");
+      } else {
+        alert('Log Out Failed')
+      }
+    });
+  };
+
   const userMenu = (
     <Menu>
       <Menu.Item>
@@ -22,18 +32,13 @@ function RightMenu(props) {
           My Favorites
         </a>
       </Menu.Item>
+      <Menu.Item key="logout">
+      <a onClick={logoutHandler}>
+        Logout
+        </a>
+      </Menu.Item>
     </Menu>
   );
-
-  const logoutHandler = () => {
-    Axios.get(`${USER_SERVER}/logout`).then(response => {
-      if (response.status === 200) {
-        props.history.push("/login");
-      } else {
-        alert('Log Out Failed')
-      }
-    });
-  };
 
   if (user.userData && !user.userData.isAuth) {
     return (
@@ -49,12 +54,12 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode}>
-        <Dropdown overlay={userMenu} placement="bottomCenter">
+        <Dropdown overlay={userMenu} placement="bottomRight" arrow>
           <Avatar size="large" icon={<UserOutlined />} onClick={e => e.preventDefault()} />
         </Dropdown>
-        <Menu.Item key="logout">
+        {/* <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu>
     )
   }

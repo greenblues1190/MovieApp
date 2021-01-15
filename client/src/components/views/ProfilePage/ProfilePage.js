@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { Typography } from 'antd';
 import ProfileInfo from './Sections/ProfileInfo';
 import { USER_SERVER } from '../../config/Config';
+import './Sections/ProfilePage.css';
 
 const { Title } = Typography;
 
@@ -10,8 +11,7 @@ function ProfilePage() {
     const [Profile, setProfile] = useState([])
 
     useEffect(() => {
-        let _id = localStorage.getItem('userId')
-        Axios.post(`${USER_SERVER}/profile`, {_id})
+        Axios.post(`${USER_SERVER}/profile`, {_id: localStorage.getItem('userId') })
             .then(response => {
                 if (response.data.success) {
                     setProfile(response.data.userInfo)
