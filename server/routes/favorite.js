@@ -4,17 +4,11 @@ const { Favorite } = require('../models/Favorite');
 
 router.post('/favoriteNumber', (req, res) => {
     // MongoDB에서 Favorite 숫자 가져오기
-    // Favorite.find({ movieId: req.body.movieId })
-    //     .exec((err, docs) => {
-    //         if (err) return res.status(400).json({ err: err, message: 'Failed to load data' })
-    //         return res.status(200).json({ success: true, favoriteNumber: docs.length })
-    //     })
-
-    Favorite.find({ movieId: req.body.movieId }, function (err, docs) {
-        if (err) return res.status(400).json({ err: err, message: 'Failed to load data' })
-        return res.status(200).json({ success: true, favoriteNumber: docs.length })
-    });
-
+    Favorite.find({ movieId: req.body.movieId })
+        .exec((err, docs) => {
+            if (err) return res.status(400).json({ err: err, message: 'Failed to load data' })
+            return res.status(200).json({ success: true, favoriteNumber: docs.length })
+        })
 });
 
 router.post('/favorited', (req, res) => {

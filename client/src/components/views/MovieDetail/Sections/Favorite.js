@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import { Button } from 'antd';
+import { Button, Badge } from 'antd';
+import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
 import { useSelector } from "react-redux";
 
 function Favorite(props) {
@@ -19,9 +20,8 @@ function Favorite(props) {
 
     useEffect(() => {
         // Favorite 수 가져오기
-        Axios.post('/api/favorite/favoriteNumber', movieId)
+        Axios.post('/api/favorite/favoriteNumber', {movieId})
             .then(response => {
-                console.log('favoriteNumber', response.data)
                 if (response.data.success) {
                     setFavoriteNumber(response.data.favoriteNumber)
                 } else {
@@ -32,7 +32,6 @@ function Favorite(props) {
         // 사용자가 favorite을 했는지 체크
         Axios.post('/api/favorite/favorited', variables)
             .then(response => {
-                console.log('isFavorited', response.data)
                 if (response.data.success) {
                     setIsFavorited(response.data.isFavorited)
                 } else {
@@ -70,15 +69,19 @@ function Favorite(props) {
 
     if (user.userData && !user.userData.isAuth) {
         return (
-            <div>
-                <Button onClick={onClickFavorite} disabled>Favorite This {FavoriteNumber}</Button>
-            </div>
+            <Badge count={FavoriteNumber}>
+                <div>
+                    <Button onClick={onClickFavorite} icon={<PlusOutlined />} disabled>Favorite</Button>
+                </div>
+            </Badge>
         )
     } else {
         return (
-            <div>
-                <Button onClick={onClickFavorite}>{IsFavorited ? "Unfavorite This" : "Favorite This"} {FavoriteNumber}</Button>
-            </div>
+            <Badge count={FavoriteNumber} style={{ backgroundColor: '#52c41a' }} >
+                <div>
+                    <Button onClick={onClickFavorite} icon={IsFavorited ? <CheckOutlined /> : <PlusOutlined />} >Favorite</Button>
+                </div>
+            </Badge>
         )
     }
 }

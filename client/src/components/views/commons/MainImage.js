@@ -3,7 +3,11 @@ import React from 'react';
 function MainImage(props) {
     return (
         <div style={{
-            background: `linear-gradient(to bottom, rgba(0,0,0,0)
+            background: `linear-gradient(to left, rgba(0,0,0,0)
+        59%,rgba(0,0,0,0)
+        61%,rgba(0,0,0,0.2)
+        100%),
+        linear-gradient(to bottom, rgba(0,0,0,0)
         39%,rgba(0,0,0,0)
         41%,rgba(0,0,0,0.65)
         100%),

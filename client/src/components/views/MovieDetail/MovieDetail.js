@@ -5,13 +5,15 @@ import MainImage from '../commons/MainImage';
 import GridCards from '../commons/GridCards';
 import MovieInfo from './Sections/MovieInfo';
 import Favorite from './Sections/Favorite';
-import { Switch, Row } from 'antd';
+import RateScore from './Sections/RateScore';
+import { Space, Switch, Row, Divider } from 'antd';
 
 
 function MovieDetail(props) {
     let movieId = props.match.params.movieId;
     const [Movie, setMovie] = useState([]);
     const [Casts, setCasts] = useState([]);
+    const [LoadingForMovie, setLoadingForMovie] = useState(true);
     const [CastToggle, setCastToggle] = useState(false);
 
     useEffect(() => {
@@ -23,6 +25,7 @@ function MovieDetail(props) {
             .then(response => {
                 // console.log(response)
                 setMovie(response)
+                setLoadingForMovie(false)
             })
 
         fetch(endpointCredits)
@@ -42,23 +45,28 @@ function MovieDetail(props) {
         <div>
 
             {/* Header */}
-
-            <MainImage
-                image={`${IMAGE_BASE_URL}w1280${Movie.backdrop_path}`}
-                title={`${Movie.original_title}`}
-                overview={`${Movie.overview}`}
-            />
+            {!LoadingForMovie ?
+                <MainImage
+                    image={`${IMAGE_BASE_URL}w1280${Movie.backdrop_path}`}
+                    title={`${Movie.original_title}`}
+                    overview={`${Movie.overview}`}
+                />
+                :
+                <div>loading...</div>
+            }
 
             {/* Body */}
             <div style={{ width: '85%', margin: '1rem auto' }}>
-
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Favorite
-                        userFrom={localStorage.getItem('userId')}
-                        movieId={movieId}
-                    />
+                    <Space size="large">
+                        <RateScore />
+                        <Favorite
+                            userFrom={localStorage.getItem('userId')}
+                            movieId={movieId}
+                        />
+                    </Space>
                 </div>
-
+                <Divider />
                 {/* Movie Info */}
                 <MovieInfo
                     movie={Movie}

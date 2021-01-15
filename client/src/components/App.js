@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { Route, Switch } from "react-router-dom";
 import Auth from "../hoc/auth";
+import { BackTop } from 'antd';
 // pages for this product
 import LandingPage from "./views/LandingPage/LandingPage.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
@@ -9,6 +10,8 @@ import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer"
 import MovieDetail from "./views/MovieDetail/MovieDetail";
 import PersonDetail from "./views/PersonDetail/PersonDetail";
+import ProfilePage from './views/ProfilePage/ProfilePage';
+import FavoritePage from './views/FavoritePage/FavoritePage';
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -18,6 +21,7 @@ function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
       <NavBar />
+      <BackTop />
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>
           <Route exact path="/" component={Auth(LandingPage, null)} />
@@ -25,6 +29,9 @@ function App() {
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/movie/:movieId" component={Auth(MovieDetail, null)} />
           <Route exact path="/person/:personId" component={Auth(PersonDetail, null)} />
+          <Route exact path="/profile" component={Auth(ProfilePage, true)} />
+          <Route exact path="/favorite" component={Auth(FavoritePage, true)} />
+
         </Switch>
       </div>
       <Footer />

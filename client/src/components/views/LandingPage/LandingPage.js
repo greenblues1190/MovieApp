@@ -5,7 +5,7 @@ import { API_URL, IMAGE_BASE_URL } from '../../config/Config';
 import { API_KEY } from '../../config/api_key';
 import MainImage from '../commons/MainImage';
 import GridCards from '../commons/GridCards';
-import { Row } from 'antd';
+import { Row, Button } from 'antd';
 
 function LandingPage() {
     const [Movies, setMovies] = useState([]);
@@ -70,7 +70,7 @@ function LandingPage() {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <button onClick={loadMoreItems}>Load More</button>
+                <Button onClick={loadMoreItems}>Load More</Button>
             </div>
         </div>
     )

@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Menu } from 'antd';
-import axios from 'axios';
+import { Menu, Dropdown, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import Axios from 'axios';
 import { USER_SERVER } from '../../../config/Config';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from "react-redux";
@@ -9,8 +10,23 @@ import { useSelector } from "react-redux";
 function RightMenu(props) {
   const user = useSelector(state => state.user)
 
+  const userMenu = (
+    <Menu>
+      <Menu.Item>
+        <a href="/profile">
+          My Profile
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a href="/favorite">
+          My Favorites
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
+
   const logoutHandler = () => {
-    axios.get(`${USER_SERVER}/logout`).then(response => {
+    Axios.get(`${USER_SERVER}/logout`).then(response => {
       if (response.status === 200) {
         props.history.push("/login");
       } else {
@@ -22,10 +38,10 @@ function RightMenu(props) {
   if (user.userData && !user.userData.isAuth) {
     return (
       <Menu mode={props.mode}>
-        <Menu.Item key="mail">
+        <Menu.Item key="signin">
           <a href="/login">Signin</a>
         </Menu.Item>
-        <Menu.Item key="app">
+        <Menu.Item key="signup">
           <a href="/register">Signup</a>
         </Menu.Item>
       </Menu>
@@ -33,6 +49,9 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode}>
+        <Dropdown overlay={userMenu} placement="bottomCenter">
+          <Avatar size="large" icon={<UserOutlined />} onClick={e => e.preventDefault()} />
+        </Dropdown>
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>
         </Menu.Item>

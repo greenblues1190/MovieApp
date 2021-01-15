@@ -9,7 +9,7 @@ const { auth } = require("../middleware/auth");
 //=================================
 
 router.get("/auth", auth, (req, res) => {
-    res.status(200).json({
+    return res.status(200).json({
         _id: req.user._id,
         isAdmin: req.user.role === 0 ? false : true,
         isAuth: true,
@@ -67,5 +67,17 @@ router.get("/logout", auth, (req, res) => {
         });
     });
 });
+
+router.post("/profile", (req, res) => {
+    User.findOne({ _id: req.body._id }, (err, user) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).json({
+            success: true,
+            userInfo: user
+        })
+    })
+})
+
+
 
 module.exports = router;
