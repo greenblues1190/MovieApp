@@ -10,7 +10,6 @@ function FavoriteList(props) {
         Axios.post('/api/favorite/getFavoriteList', { userFrom: props.userFrom })
             .then(response => {
                 if (response.data.success) {
-                    console.log(response.data)
                     setFavorites(response.data.favoriteList)
                 } else {
                     alert('Failed to load favorite list')
