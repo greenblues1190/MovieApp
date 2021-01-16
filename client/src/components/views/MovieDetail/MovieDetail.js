@@ -64,6 +64,7 @@ function MovieDetail(props) {
                             userFrom={localStorage.getItem('userId')}
                             movieId={movieId}
                             movieTitle={Movie.original_title}
+                            movieImage={Movie.backdrop_path}
                         />
                     </Space>
                 </div>
@@ -83,10 +84,11 @@ function MovieDetail(props) {
                         {Casts && Casts.map((cast, index) => (
                             <React.Fragment key={index}>
                                 <GridCards
+                                    type='person'
+                                    id={cast.id}
                                     image={cast.profile_path ?
                                         `${IMAGE_BASE_URL}w500${cast.profile_path}` : null}
-                                    personId={cast.id}
-                                    personName={cast.name} />
+                                    name={cast.name} />
                             </React.Fragment>
                         ))}
                     </Row>

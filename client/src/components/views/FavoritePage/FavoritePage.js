@@ -1,5 +1,5 @@
 import React from 'react';
-//import './Sections/FavoritePage.css';
+import './Sections/FavoritePage.css';
 import FavoriteList from './Sections/FavoriteList';
 
 function FavoritePage() {
@@ -9,11 +9,9 @@ function FavoritePage() {
                 <h2>Favorite Movies</h2>
                 <hr />
             </div>
-            <div>
-                <FavoriteList
-                    userFrom={localStorage.getItem('userId')}
-                />
-            </div>
+            <FavoriteList
+                userFrom={localStorage.getItem('userId')}
+            />
         </div>
     )
 }

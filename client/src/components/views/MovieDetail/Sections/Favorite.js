@@ -10,6 +10,7 @@ function Favorite(props) {
     const userFrom = props.userFrom;
     const movieId = props.movieId;
     const movieTitle = props.movieTitle;
+    const movieImage = props.movieImage;
 
     const [FavoriteNumber, setFavoriteNumber] = useState(0);
     const [IsFavorited, setIsFavorited] = useState(false);
@@ -51,7 +52,7 @@ function Favorite(props) {
                 })
         } else {
             // Favorite에 추가되지 않았다면 Favorite에 추가한다
-            Axios.post('/api/favorite/addFavorite', { userFrom, movieId, movieTitle })
+            Axios.post('/api/favorite/addFavorite', { userFrom, movieId, movieTitle, movieImage })
                 .then(response => {
                     if (response.data.success) {
                         setFavoriteNumber(FavoriteNumber + 1)

@@ -15,7 +15,6 @@ function LandingPage() {
     useEffect(() => {
         const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
         fetchMovies(endpoint);
-
     }, [])
 
     const loadMoreItems = () => {
@@ -25,13 +24,13 @@ function LandingPage() {
 
     const fetchMovies = (endpoint) => {
         fetch(endpoint)
-        .then(response => response.json())
-        .then(response => {
-            // console.log(response)
-            setMovies([...Movies, ...response.results])
-            setMainMovieImage(response.results[0])
-            setCurrentPage(response.page)
-        });
+            .then(response => response.json())
+            .then(response => {
+                // console.log(response)
+                setMovies([...Movies, ...response.results])
+                setMainMovieImage(response.results[0])
+                setCurrentPage(response.page)
+            });
     }
 
     return (
@@ -55,12 +54,12 @@ function LandingPage() {
                     {Movies && Movies.map((movie, index) => (
                         <React.Fragment key={index}>
                             <GridCards
-                                movie
+                                type='movie'
                                 image={movie.poster_path ?
                                     `${IMAGE_BASE_URL}w500${movie.poster_path}` : null
                                 }
-                                movieId={movie.id}
-                                movieName={movie.original_title}
+                                id={movie.id}
+                                name={movie.original_title}
                             />
                         </React.Fragment>
                     ))}
